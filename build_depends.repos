@@ -2,47 +2,47 @@ repositories:
   # core
   core/autoware_common:
     type: git
-    url: https://github.com/autowarefoundation/autoware_common.git
+    url: https://github.com/AVGTeam-OperakitB/autoware_common.git
     version: main
   core/autoware.core:
     type: git
-    url: https://github.com/autowarefoundation/autoware.core.git
+    url: https://github.com/AVGTeam-OperakitB/autoware.core.git
     version: main
   core/autoware_msgs:
     type: git
-    url: https://github.com/autowarefoundation/autoware_msgs.git
+    url: https://github.com/AVGTeam-OperakitB/autoware_msgs.git
     version: main
   core/autoware_adapi_msgs:
     type: git
-    url: https://github.com/autowarefoundation/autoware_adapi_msgs.git
+    url: https://github.com/AVGTeam-OperakitB/autoware_adapi_msgs.git
     version: main
   core/autoware_internal_msgs:
     type: git
-    url: https://github.com/autowarefoundation/autoware_internal_msgs.git
+    url: https://github.com/AVGTeam-OperakitB/autoware_internal_msgs.git
     version: main
   core/external/autoware_auto_msgs:
     type: git
-    url: https://github.com/tier4/autoware_auto_msgs.git
+    url: https://github.com/AVGTeam-OperakitB/autoware_auto_msgs.git
     version: tier4/main
   # universe
   universe/external/tier4_autoware_msgs:
     type: git
-    url: https://github.com/tier4/tier4_autoware_msgs.git
+    url: https://github.com/AVGTeam-OperakitB/tier4_autoware_msgs.git
     version: tier4/universe
   universe/external/mussp:
     type: git
-    url: https://github.com/tier4/muSSP.git
+    url: https://github.com/AVGTeam-OperakitB/muSSP.git
     version: tier4/main
   universe/external/ndt_omp:
     type: git
-    url: https://github.com/tier4/ndt_omp.git
+    url: https://github.com/AVGTeam-OperakitB/ndt_omp.git
     version: tier4/main
   universe/external/morai_msgs:
     type: git
-    url: https://github.com/MORAI-Autonomous/MORAI-ROS2_morai_msgs.git
+    url: https://github.com/AVGTeam-OperakitB/MORAI-ROS2_morai_msgs.git
     version: main
   #vehicle
   vehicle/sample_vehicle_launch:
     type: git
-    url: https://github.com/autowarefoundation/sample_vehicle_launch.git
+    url: https://github.com/AVGTeam-OperakitB/sample_vehicle_launch.git
     version: main
