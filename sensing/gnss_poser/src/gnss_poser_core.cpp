@@ -161,6 +161,9 @@ void GNSSPoser::callbackNavSatFix(
   geometry_msgs::msg::PoseStamped gnss_base_pose_msg{};
   gnss_base_pose_msg.header.stamp = nav_sat_fix_msg_ptr->header.stamp;
   gnss_base_pose_msg.header.frame_id = map_frame_;
+  gnss_base_pose_msg.pose.position.x -=  61005.0;
+  gnss_base_pose_msg.pose.position.y -=  65871.0;
+
   tf2::toMsg(tf_map2base_link, gnss_base_pose_msg.pose);
 
   // publish gnss_base_link pose in map frame
@@ -169,7 +172,11 @@ void GNSSPoser::callbackNavSatFix(
   // publish gnss_base_link pose_cov in map frame
   geometry_msgs::msg::PoseWithCovarianceStamped gnss_base_pose_cov_msg;
   gnss_base_pose_cov_msg.header = gnss_base_pose_msg.header;
-  gnss_base_pose_cov_msg.pose.pose = gnss_base_pose_msg.pose;
+  //수정
+  gnss_base_pose_cov_msg.pose.pose.position.x = gnss_base_pose_msg.pose.position.x - 61005.0;
+  gnss_base_pose_cov_msg.pose.pose.position.y = gnss_base_pose_msg.pose.position.y - 65871.0;
+
+
   gnss_base_pose_cov_msg.pose.covariance[7 * 0] =
     canGetCovariance(*nav_sat_fix_msg_ptr) ? nav_sat_fix_msg_ptr->position_covariance[0] : 10.0;
   gnss_base_pose_cov_msg.pose.covariance[7 * 1] =
