@@ -110,7 +110,10 @@ void GNSSPoser::callbackNavSatFix(
   position.z = geography_utils::convert_height(
     position.z, gps_point.latitude, gps_point.longitude, MapProjectorInfo::Message::WGS84,
     projector_info_.vertical_datum);
-
+  // RCLCPP_INFO(get_logger(), "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+  // RCLCPP_INFO(get_logger(), "position.x:%f", position.x);
+  // RCLCPP_INFO(get_logger(), "position.y:%f", position.y);
+  // RCLCPP_INFO(get_logger(), "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
   geometry_msgs::msg::Pose gnss_antenna_pose{};
 
   // publish pose immediately
@@ -161,20 +164,24 @@ void GNSSPoser::callbackNavSatFix(
   geometry_msgs::msg::PoseStamped gnss_base_pose_msg{};
   gnss_base_pose_msg.header.stamp = nav_sat_fix_msg_ptr->header.stamp;
   gnss_base_pose_msg.header.frame_id = map_frame_;
-  gnss_base_pose_msg.pose.position.x -=  61005.0;
-  gnss_base_pose_msg.pose.position.y -=  65871.0;
 
   tf2::toMsg(tf_map2base_link, gnss_base_pose_msg.pose);
+  gnss_base_pose_msg.pose.position.x -=  60966.0;
+  gnss_base_pose_msg.pose.position.y -=  65972.0;
 
   // publish gnss_base_link pose in map frame
   pose_pub_->publish(gnss_base_pose_msg);
+  // RCLCPP_INFO(get_logger(), "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+  // RCLCPP_INFO(get_logger(), "position.x:%f", gnss_base_pose_msg.pose.position.x);
+  // RCLCPP_INFO(get_logger(), "position.y:%f", gnss_base_pose_msg.pose.position.y);
+  // RCLCPP_INFO(get_logger(), "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
   // publish gnss_base_link pose_cov in map frame
   geometry_msgs::msg::PoseWithCovarianceStamped gnss_base_pose_cov_msg;
   gnss_base_pose_cov_msg.header = gnss_base_pose_msg.header;
   //수정
-  gnss_base_pose_cov_msg.pose.pose.position.x = gnss_base_pose_msg.pose.position.x - 61005.0;
-  gnss_base_pose_cov_msg.pose.pose.position.y = gnss_base_pose_msg.pose.position.y - 65871.0;
+  gnss_base_pose_cov_msg.pose.pose.position.x = gnss_base_pose_msg.pose.position.x;
+  gnss_base_pose_cov_msg.pose.pose.position.y = gnss_base_pose_msg.pose.position.y;
 
 
   gnss_base_pose_cov_msg.pose.covariance[7 * 0] =
