@@ -81,7 +81,6 @@ PoseInitializer::PoseInitializer() : Node("pose_initializer")
 
       set_user_defined_initial_pose(initial_pose);
     }
-    // RCLCPP_INFO(get_logger(), "!!!!!!!!!!!!!!!!FISNISH INITIAL NODE!!!!!!!!!!!!!!!!!");
   }
 }
 
@@ -127,7 +126,6 @@ void PoseInitializer::set_user_defined_initial_pose(const geometry_msgs::msg::Po
     pose.pose.pose = initial_pose;
     pose.pose.covariance = output_pose_covariance_;
     pub_reset_->publish(pose);
-    // RCLCPP_INFO(get_logger(), "!!!!!!!!!!!!!!!!set_user_defined_initial_pose!!!!!!!!!!!!!!!!!");
 
     change_node_trigger(true, true);
     change_state(State::Message::INITIALIZED);
@@ -143,14 +141,12 @@ void PoseInitializer::on_initialize(
   const Initialize::Service::Request::SharedPtr req,
   const Initialize::Service::Response::SharedPtr res)
 {
-  // RCLCPP_INFO(get_logger(), "!!!!!!!!!!!!!!!!START: on_initialize!!!!!!!!!!!!!!!!!");
   // NOTE: This function is not executed during initialization because mutually exclusive.
   if (stop_check_ && !stop_check_->isVehicleStopped(stop_check_duration_)) {
     throw ServiceException(
       Initialize::Service::Response::ERROR_UNSAFE, "The vehicle is not stopped.");
   }
   try {
-    // RCLCPP_INFO(get_logger(), "!!!!!!!!!!!!!!!!TRY: on_initialize!!!!!!!!!!!!!!!!!");
     change_state(State::Message::INITIALIZING);
     change_node_trigger(false, false);
 
@@ -164,13 +160,11 @@ void PoseInitializer::on_initialize(
     }
     pose.pose.covariance = output_pose_covariance_;
     pub_reset_->publish(pose);
-    // RCLCPP_INFO(get_logger(), "!!!!!!!!!!!!!!!!on_initialize!!!!!!!!!!!!!!!!!");
 
     change_node_trigger(true, false);
     res->status.success = true;
     change_state(State::Message::INITIALIZED);
   } catch (const ServiceException & error) {
-    // RCLCPP_INFO(get_logger(), "!!!!!!!!!!!!!!!!CATCH: on_initialize!!!!!!!!!!!!!!!!!");
     res->status = error.status();
     change_state(State::Message::UNINITIALIZED);
   }
