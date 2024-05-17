@@ -24,7 +24,7 @@
   <!-- set initial pose -->
   <let name="user_defined_initial_pose/enable" value="$(eval &quot;len($(var initial_pose)) == 7&quot;)"/>
   <let name="user_defined_initial_pose/pose" value="$(var initial_pose)" if="$(var user_defined_initial_pose/enable)"/>
-  <let name="user_defined_initial_pose/pose" value="[0.0, 0.0, 0.0, 0.0, 0.0, 0. 0, 1.0]" unless="$(var user_defined_initial_pose/enable)"/>
+  <let name="user_defined_initial_pose/pose" value="[33.0,-127.0,0.0,0.0,0.0,0.0,1.0]" unless="$(var user_defined_initial_pose/enable)"/>
 
   <!-- NDT Scan Matcher Launch (as pose estimator) -->
   <group if="$(var use_ndt_pose)">

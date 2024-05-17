@@ -51,10 +51,11 @@ geometry_msgs::msg::Vector3 transformVector3(
   return vec_stamped_transformed.vector;
 }
 
+// ADD) base_link -> imu_link (240418)
 namespace imu_corrector
 {
 ImuCorrector::ImuCorrector()
-: Node("imu_corrector"), output_frame_(declare_parameter<std::string>("base_link", "base_link"))
+: Node("imu_corrector"), output_frame_(declare_parameter<std::string>("base_link", "imu_link"))
 {
   transform_listener_ = std::make_shared<tier4_autoware_utils::TransformListener>(this);
 

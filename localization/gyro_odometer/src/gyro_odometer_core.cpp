@@ -146,7 +146,7 @@ void GyroOdometer::callbackVehicleTwist(
   const double twist_dt = std::abs((this->now() - vehicle_twist_ptr->header.stamp).seconds());
   if (twist_dt > message_timeout_sec_) {
     const std::string error_msg = fmt::format(
-      "Twist msg is timeout. twist_dt: {}[sec], tolerance {}[sec]", twist_dt, message_timeout_sec_);
+      "VEHICLE CALLBACK!!!!!! Twist msg is timeout. twist_dt: {}[sec], tolerance {}[sec]", twist_dt, message_timeout_sec_);
     RCLCPP_ERROR_THROTTLE(this->get_logger(), *this->get_clock(), 1000, error_msg.c_str());
     vehicle_twist_queue_.clear();
     gyro_queue_.clear();
@@ -159,7 +159,7 @@ void GyroOdometer::callbackVehicleTwist(
   const double imu_dt = std::abs((this->now() - gyro_queue_.back().header.stamp).seconds());
   if (imu_dt > message_timeout_sec_) {
     const std::string error_msg = fmt::format(
-      "Imu msg is timeout. twist_dt: {}[sec], tolerance {}[sec]", imu_dt, message_timeout_sec_);
+      "VEHICLE CALLBACK!!!!!! Imu msg is timeout. twist_dt: {}[sec], tolerance {}[sec]", imu_dt, message_timeout_sec_);
     RCLCPP_ERROR_THROTTLE(this->get_logger(), *this->get_clock(), 1000, error_msg.c_str());
     vehicle_twist_queue_.clear();
     gyro_queue_.clear();
@@ -187,7 +187,7 @@ void GyroOdometer::callbackImu(const sensor_msgs::msg::Imu::ConstSharedPtr imu_m
   const double imu_dt = std::abs((this->now() - imu_msg_ptr->header.stamp).seconds());
   if (imu_dt > message_timeout_sec_) {
     const std::string error_msg = fmt::format(
-      "Imu msg is timeout. imu_dt: {}[sec], tolerance {}[sec]", imu_dt, message_timeout_sec_);
+      "IMU CALLBACK!!!!!! Imu msg is timeout. imu_dt: {}[sec], tolerance {}[sec]", imu_dt, message_timeout_sec_);
     RCLCPP_ERROR_THROTTLE(this->get_logger(), *this->get_clock(), 1000, error_msg.c_str());
     vehicle_twist_queue_.clear();
     gyro_queue_.clear();
@@ -227,7 +227,7 @@ void GyroOdometer::callbackImu(const sensor_msgs::msg::Imu::ConstSharedPtr imu_m
     std::abs((this->now() - vehicle_twist_queue_.back().header.stamp).seconds());
   if (twist_dt > message_timeout_sec_) {
     const std::string error_msg = fmt::format(
-      "Twist msg is timeout. twist_dt: {}[sec], tolerance {}[sec]", twist_dt, message_timeout_sec_);
+      "IMU CALLBACK!!!!!! Twist msg is timeout. twist_dt: {}[sec], tolerance {}[sec]", twist_dt, message_timeout_sec_);
     RCLCPP_ERROR_THROTTLE(this->get_logger(), *this->get_clock(), 1000, error_msg.c_str());
     vehicle_twist_queue_.clear();
     gyro_queue_.clear();

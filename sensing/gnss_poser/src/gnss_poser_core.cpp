@@ -164,7 +164,10 @@ void GNSSPoser::callbackNavSatFix(
   tf2::toMsg(tf_map2base_link, gnss_base_pose_msg.pose);
   // ADD) pose for /gnss/pose /gnss/pose_with_cov (240416)
   gnss_base_pose_msg.pose.position.x -=  60966.0;
-  gnss_base_pose_msg.pose.position.y -=  65972.0;
+  gnss_base_pose_msg.pose.position.y -=  65973.5;
+  // gnss_base_pose_msg.pose.position.z -=  90.0;
+  // gnss_base_pose_msg.pose.position.x -=  60966.0;
+  // gnss_base_pose_msg.pose.position.y -=  65976.0;
 
   // publish gnss_base_link pose in map frame
   pose_pub_->publish(gnss_base_pose_msg);
@@ -175,7 +178,9 @@ void GNSSPoser::callbackNavSatFix(
   // ADD) pose (240416)
   gnss_base_pose_cov_msg.pose.pose.position.x = gnss_base_pose_msg.pose.position.x;
   gnss_base_pose_cov_msg.pose.pose.position.y = gnss_base_pose_msg.pose.position.y;
+  // gnss_base_pose_cov_msg.pose.pose.position.z = gnss_base_pose_msg.pose.position.z;
   gnss_base_pose_cov_msg.pose.pose.orientation.z = gnss_base_pose_msg.pose.orientation.z;
+  gnss_base_pose_cov_msg.pose.pose.orientation.w = gnss_base_pose_msg.pose.orientation.w;
 
 
   gnss_base_pose_cov_msg.pose.covariance[7 * 0] =

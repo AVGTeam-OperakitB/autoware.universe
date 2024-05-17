@@ -371,7 +371,6 @@ void VehicleCmdGate::onTimer()
       turn_indicator = auto_commands_.turn_indicator;
       hazard_light = auto_commands_.hazard_light;
       gear = auto_commands_.gear;
-
       // Don't send turn signal when autoware is not engaged
       if (!is_engaged_) {
         turn_indicator.command = TurnIndicatorsCommand::NO_COMMAND;
@@ -408,7 +407,6 @@ void VehicleCmdGate::publishControlCommands(const Commands & commands)
   if (!isDataReady()) {
     return;
   }
-
   Commands filtered_commands;
 
   // Set default commands
