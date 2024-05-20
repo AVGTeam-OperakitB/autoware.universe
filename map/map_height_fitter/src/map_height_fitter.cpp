@@ -215,7 +215,8 @@ double MapHeightFitter::Impl::get_ground_height(const Point & point) const
     }
     height = closest_lanelet.centerline().back().z();
   }
-
+  // ADD
+  RCLCPP_INFO_STREAM(logger, "height: " << height << ", point.z: " << point.z);
   return std::isfinite(height) ? height : point.z;
 }
 

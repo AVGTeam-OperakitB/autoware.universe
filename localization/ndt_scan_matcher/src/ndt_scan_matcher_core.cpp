@@ -379,9 +379,9 @@ void NDTScanMatcher::callback_sensor_points(
   const SmartPoseBuffer::InterpolateResult & interpolation_result =
     interpolation_result_opt.value();
   // ADD
-  RCLCPP_INFO(this->get_logger(), "interpolation_result.x: %f", interpolation_result.interpolated_pose.pose.pose.position.x);
-  RCLCPP_INFO(this->get_logger(), "interpolation_result.y: %f", interpolation_result.interpolated_pose.pose.pose.position.y);
-  RCLCPP_INFO(this->get_logger(), "interpolation_result.z: %f", interpolation_result.interpolated_pose.pose.pose.position.z);
+  // RCLCPP_INFO(this->get_logger(), "interpolation_result.x: %f", interpolation_result.interpolated_pose.pose.pose.position.x);
+  // RCLCPP_INFO(this->get_logger(), "interpolation_result.y: %f", interpolation_result.interpolated_pose.pose.pose.position.y);
+  // RCLCPP_INFO(this->get_logger(), "interpolation_result.z: %f", interpolation_result.interpolated_pose.pose.pose.position.z);
 
   // if regularization is enabled and available, set pose to NDT for regularization
   if (param_.ndt_regularization_enable) {
@@ -451,9 +451,9 @@ void NDTScanMatcher::callback_sensor_points(
   // publish
   initial_pose_with_covariance_pub_->publish(interpolation_result.interpolated_pose);
   // ADD
-  RCLCPP_INFO(this->get_logger(), "FINAL interpolation_result.x: %f", interpolation_result.interpolated_pose.pose.pose.position.x);
-  RCLCPP_INFO(this->get_logger(), "FINALinterpolation_result.y: %f", interpolation_result.interpolated_pose.pose.pose.position.y);
-  RCLCPP_INFO(this->get_logger(), "FINALinterpolation_result.z: %f", interpolation_result.interpolated_pose.pose.pose.position.z);
+  // RCLCPP_INFO(this->get_logger(), "FINAL interpolation_result.x: %f", interpolation_result.interpolated_pose.pose.pose.position.x);
+  // RCLCPP_INFO(this->get_logger(), "FINALinterpolation_result.y: %f", interpolation_result.interpolated_pose.pose.pose.position.y);
+  // RCLCPP_INFO(this->get_logger(), "FINALinterpolation_result.z: %f", interpolation_result.interpolated_pose.pose.pose.position.z);
 
   exe_time_pub_->publish(make_float32_stamped(sensor_ros_time, exe_time));
   transform_probability_pub_->publish(
