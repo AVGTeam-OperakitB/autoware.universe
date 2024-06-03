@@ -473,6 +473,7 @@ void EKFLocalizer::serviceTriggerNode(
     pose_queue_.clear();
     twist_queue_.clear();
     is_activated_ = true;
+    RCLCPP_INFO(this->get_logger(), "PUSHED init by GNSS");
   } else {
     is_activated_ = false;
   }

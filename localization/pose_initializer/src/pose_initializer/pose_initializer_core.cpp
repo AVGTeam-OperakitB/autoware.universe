@@ -151,10 +151,6 @@ void PoseInitializer::on_initialize(
     change_node_trigger(false, false);
 
     auto pose = req->pose.empty() ? get_gnss_pose() : req->pose.front();
-    RCLCPP_INFO(this->get_logger(), "!!!!!!!!!!!!!!BEFORE!!!!!!!!!!!!!!!");
-    RCLCPP_INFO(this->get_logger(), "!!!!!!!!!!!!!!pose.x %f!!!!!!!!!!!!!!!", pose.pose.pose.position.x);
-    RCLCPP_INFO(this->get_logger(), "!!!!!!!!!!!!!!pose.y %f!!!!!!!!!!!!!!!", pose.pose.pose.position.y);
-    RCLCPP_INFO(this->get_logger(), "!!!!!!!!!!!!!!pose.z %f!!!!!!!!!!!!!!!", pose.pose.pose.position.z);
     if (ndt_) {
       pose = ndt_->align_pose(pose);
     } else if (yabloc_) {
@@ -163,10 +159,6 @@ void PoseInitializer::on_initialize(
       pose = yabloc_->align_pose(pose);
     }
     pose.pose.covariance = output_pose_covariance_;
-    RCLCPP_INFO(this->get_logger(), "!!!!!!!!!!!!!!AFTER!!!!!!!!!!!!!!!");
-    RCLCPP_INFO(this->get_logger(), "!!!!!!!!!!!!!!pose.x %f!!!!!!!!!!!!!!!", pose.pose.pose.position.x);
-    RCLCPP_INFO(this->get_logger(), "!!!!!!!!!!!!!!pose.y %f!!!!!!!!!!!!!!!", pose.pose.pose.position.y);
-    RCLCPP_INFO(this->get_logger(), "!!!!!!!!!!!!!!pose.z %f!!!!!!!!!!!!!!!", pose.pose.pose.position.z);
     pub_reset_->publish(pose);
 
     change_node_trigger(true, false);
@@ -180,13 +172,9 @@ void PoseInitializer::on_initialize(
 
 geometry_msgs::msg::PoseWithCovarianceStamped PoseInitializer::get_gnss_pose()
 {
-  RCLCPP_INFO(this->get_logger(), "!!!!!!!!!!!!!!get_gnss_pose!!!!!!!!!!!!!!!");
   if (gnss_) {
     PoseWithCovarianceStamped pose = gnss_->get_pose();
     pose.pose.covariance = gnss_particle_covariance_;
-    RCLCPP_INFO(this->get_logger(), "!!!!!!!!!!!!!!pose.x %f!!!!!!!!!!!!!!!", pose.pose.pose.position.x);
-    RCLCPP_INFO(this->get_logger(), "!!!!!!!!!!!!!!pose.y %f!!!!!!!!!!!!!!!", pose.pose.pose.position.y);
-    RCLCPP_INFO(this->get_logger(), "!!!!!!!!!!!!!!pose.z %f!!!!!!!!!!!!!!!", pose.pose.pose.position.z);
     return pose;
   }
   throw ServiceException(

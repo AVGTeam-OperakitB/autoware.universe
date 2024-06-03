@@ -231,6 +231,8 @@ std::optional<Point> MapHeightFitter::Impl::fit(const Point & position, const st
   point.z = position.z;
 
   RCLCPP_DEBUG(logger, "original point: %.3f %.3f %.3f", point.x, point.y, point.z);
+  // ADD
+  // RCLCPP_INFO_STREAM(logger, "original point.x: " << point.x << ", point.y: " << point.y << ", point.z: " << point.z);
 
   // prepare data
   if (fit_target_ == "pointcloud_map") {
@@ -276,6 +278,8 @@ std::optional<Point> MapHeightFitter::Impl::fit(const Point & position, const st
   }
 
   RCLCPP_DEBUG(logger, "modified point: %.3f %.3f %.3f", point.x, point.y, point.z);
+  // ADD
+  // RCLCPP_INFO_STREAM(logger, "modified point.x: " << point.x << ", point.y: " << point.y << ", point.z: " << point.z);
 
   return point;
 }

@@ -179,8 +179,8 @@ void GNSSPoser::callbackNavSatFix(
   gnss_base_pose_cov_msg.pose.pose.position.x = gnss_base_pose_msg.pose.position.x;
   gnss_base_pose_cov_msg.pose.pose.position.y = gnss_base_pose_msg.pose.position.y;
   // gnss_base_pose_cov_msg.pose.pose.position.z = gnss_base_pose_msg.pose.position.z;
-  gnss_base_pose_cov_msg.pose.pose.orientation.z = gnss_base_pose_msg.pose.orientation.z;
-  gnss_base_pose_cov_msg.pose.pose.orientation.w = gnss_base_pose_msg.pose.orientation.w;
+  // gnss_base_pose_cov_msg.pose.pose.orientation.z = gnss_base_pose_msg.pose.orientation.z;
+  // gnss_base_pose_cov_msg.pose.pose.orientation.w = gnss_base_pose_msg.pose.orientation.w;
 
 
   gnss_base_pose_cov_msg.pose.covariance[7 * 0] =
@@ -198,9 +198,9 @@ void GNSSPoser::callbackNavSatFix(
     gnss_base_pose_cov_msg.pose.covariance[7 * 5] =
       std::pow(msg_gnss_ins_orientation_stamped_->orientation.rmse_rotation_z, 2);
   } else {
-    gnss_base_pose_cov_msg.pose.covariance[7 * 3] = 0.1;
-    gnss_base_pose_cov_msg.pose.covariance[7 * 4] = 0.1;
-    gnss_base_pose_cov_msg.pose.covariance[7 * 5] = 1.0;
+    gnss_base_pose_cov_msg.pose.covariance[7 * 3] = 0.01;
+    gnss_base_pose_cov_msg.pose.covariance[7 * 4] = 0.01;
+    gnss_base_pose_cov_msg.pose.covariance[7 * 5] = 0.01;
   }
 
   pose_cov_pub_->publish(gnss_base_pose_cov_msg);

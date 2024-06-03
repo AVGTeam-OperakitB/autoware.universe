@@ -853,6 +853,11 @@ void NDTScanMatcher::service_ndt_align(
   const tier4_localization_msgs::srv::PoseWithCovarianceStamped::Request::SharedPtr req,
   tier4_localization_msgs::srv::PoseWithCovarianceStamped::Response::SharedPtr res)
 {
+  // RCLCPP_INFO(this->get_logger(), "request.position.x: %f", req->pose_with_covariance.pose.pose.position.x);
+  // RCLCPP_INFO(this->get_logger(), "request.position.y: %f", req->pose_with_covariance.pose.pose.position.y);
+  // RCLCPP_INFO(this->get_logger(), "request.position.z: %f", req->pose_with_covariance.pose.pose.position.z);
+  // 요청으로 들어가는 값(req)는 /sensing/gnss/pose_with_covariance의 position값과 일치
+
   // get TF from pose_frame to map_frame
   const std::string & target_frame = param_.frame.map_frame;
   const std::string & source_frame = req->pose_with_covariance.header.frame_id;
@@ -896,6 +901,9 @@ void NDTScanMatcher::service_ndt_align(
   res->pose_with_covariance = align_pose(initial_pose_msg_in_map_frame);
   res->success = true;
   res->pose_with_covariance.pose.covariance = req->pose_with_covariance.pose.covariance;
+  RCLCPP_INFO(this->get_logger(), "res.position.x: %f", res->pose_with_covariance.pose.pose.position.x);
+  RCLCPP_INFO(this->get_logger(), "res.position.y: %f", res->pose_with_covariance.pose.pose.position.y);
+  RCLCPP_INFO(this->get_logger(), "res.position.z: %f", res->pose_with_covariance.pose.pose.position.z);
 }
 
 geometry_msgs::msg::PoseWithCovarianceStamped NDTScanMatcher::align_pose(
