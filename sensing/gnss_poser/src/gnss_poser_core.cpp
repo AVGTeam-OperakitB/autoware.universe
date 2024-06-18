@@ -167,7 +167,7 @@ void GNSSPoser::callbackNavSatFix(
   gnss_base_pose_msg.pose.position.y -=  65973.5;
   // gnss_base_pose_msg.pose.position.z -=  90.0;
   // gnss_base_pose_msg.pose.position.x -=  60966.0;
-  // gnss_base_pose_msg.pose.position.y -=  65976.0;
+  // gnss_base_pose_msg.pose.position.y -=  65973.5;
 
   // publish gnss_base_link pose in map frame
   pose_pub_->publish(gnss_base_pose_msg);
@@ -198,9 +198,9 @@ void GNSSPoser::callbackNavSatFix(
     gnss_base_pose_cov_msg.pose.covariance[7 * 5] =
       std::pow(msg_gnss_ins_orientation_stamped_->orientation.rmse_rotation_z, 2);
   } else {
-    gnss_base_pose_cov_msg.pose.covariance[7 * 3] = 0.01;
-    gnss_base_pose_cov_msg.pose.covariance[7 * 4] = 0.01;
-    gnss_base_pose_cov_msg.pose.covariance[7 * 5] = 0.01;
+    gnss_base_pose_cov_msg.pose.covariance[7 * 3] = 0.1;
+    gnss_base_pose_cov_msg.pose.covariance[7 * 4] = 0.1;
+    gnss_base_pose_cov_msg.pose.covariance[7 * 5] = 1.0;
   }
 
   pose_cov_pub_->publish(gnss_base_pose_cov_msg);

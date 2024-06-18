@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <arg name="use_autoware_pose_covariance_modifier" default="true"/>
+  <arg name="use_autoware_pose_covariance_modifier" default="false"/>
   <!-- only when running with a real vehicle, the pose_initializer judges the stop -->
   <let name="stop_check_enabled" if="$(eval &quot;'$(var system_run_mode)'=='online'&quot;)" value="true"/>
   <let name="stop_check_enabled" if="$(eval &quot;'$(var system_run_mode)'=='logging_simulation'&quot;)" value="false"/>
@@ -25,7 +25,7 @@
   <!-- set initial pose -->
   <let name="user_defined_initial_pose/enable" value="$(eval &quot;len($(var initial_pose)) == 7&quot;)"/>
   <let name="user_defined_initial_pose/pose" value="$(var initial_pose)" if="$(var user_defined_initial_pose/enable)"/>
-  <let name="user_defined_initial_pose/pose" value="[33.0,-127.0,0.0,0.0,0.0,0.0,1.0]" unless="$(var user_defined_initial_pose/enable)"/>
+  <let name="user_defined_initial_pose/pose" value="[0.0,0.0,0.0,0.0,0.0,0.0,1.0]" unless="$(var user_defined_initial_pose/enable)"/>
 
   <!-- NDT Scan Matcher Launch (as pose estimator) -->
   <group if="$(var use_ndt_pose)">

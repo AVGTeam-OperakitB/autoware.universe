@@ -48,6 +48,7 @@ void VehicleStopCheckerBase::addTwist(const TwistStamped & twist)
 bool VehicleStopCheckerBase::isVehicleStopped(const double stop_duration) const
 {
   if (twist_buffer_.empty()) {
+    RCLCPP_INFO(logger_, "!!!!!!empty()");
     return false;
   }
 
