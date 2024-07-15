@@ -11,7 +11,8 @@
   <arg name="pedestrian_traffic_light_classifier_label_name" default="lamp_labels_ped.txt" description="classifier label filename"/>
   <arg name="car_traffic_light_classifier_model_name" default="traffic_light_classifier_mobilenetv2_batch_6.onnx" description="classifier onnx model filename"/>
   <arg name="pedestrian_traffic_light_classifier_model_name" default="ped_traffic_light_classifier_mobilenetv2_batch_6.onnx" description="classifier onnx model filename"/>
-  <arg name="input/cloud" default="/sensing/lidar/top/pointcloud_raw" description="point cloud for occlusion prediction"/>
+  <!-- EDIT_ 0702 -->
+  <arg name="input/cloud" default="/rslidar_points" description="point cloud for occlusion prediction"/>
   <arg name="internal/traffic_signals" default="/perception/traffic_light_recognition/internal/traffic_signals"/>
   <arg name="fusion/traffic_signals" default="/perception/traffic_light_recognition/fusion/traffic_signals"/>
   <arg name="external/traffic_signals" default="/perception/traffic_light_recognition/external/traffic_signals"/>
@@ -19,7 +20,9 @@
   <arg name="use_crosswalk_traffic_light_estimator" default="true" description="output pedestrian's traffic light signals"/>
   <arg name="crosswalk_traffic_light_estimator_param_file" default="$(find-pkg-share crosswalk_traffic_light_estimator)/config/crosswalk_traffic_light_estimator.param.yaml"/>
   <arg name="image_number" default="1" description="choose image raw number(1-2)"/>
-  <arg name="namespace1" default="camera6"/>
+  <!-- EDIT_ 0711 -->
+  <arg name="namespace1" default="zed_cam"/>
+  <!-- <arg name="namespace1" default="camera6"/> -->
   <arg name="namespace2" default="camera7"/>
   <let name="all_camera_namespaces" value="[$(var namespace1)]" if="$(eval &quot; '$(var image_number)' == '1' &quot;)"/>
   <let name="all_camera_namespaces" value="[$(var namespace1), $(var namespace2)]" if="$(eval &quot; '$(var image_number)' >= '2' &quot;)"/>
@@ -31,12 +34,19 @@
   <!-- namespace1 camera TLR pipeline -->
   <group>
     <push-ros-namespace namespace="$(var namespace1)"/>
-    <let name="input/image" value="/sensing/camera/$(var namespace1)/image_raw"/>
-    <let name="input/camera_info" value="/sensing/camera/$(var namespace1)/camera_info"/>
+    <!-- EDIT_ 0711 -->
+    <let name="input/image" value="/sensing/camera/traffic_light/zed/zed_node/rgb_raw/image_raw_color"/>
+    <let name="input/camera_info" value="/sensing/camera/traffic_light/zed/zed_node/rgb_raw/camera_info"/>
     <let name="output/rois1" value="/perception/traffic_light_recognition/$(var namespace1)/detection/rois"/>
     <let name="output/traffic_signals1" value="/perception/traffic_light_recognition/$(var namespace1)/classification/traffic_signals"/>
     <let name="output/car/traffic_signals1" value="/perception/traffic_light_recognition/$(var namespace1)/classification/car/traffic_signals"/>
     <let name="output/pedestrian/traffic_signals1" value="/perception/traffic_light_recognition/$(var namespace1)/classification/pedestrian/traffic_signals"/>
+    <!-- <let name="input/image" value="/sensing/camera/$(var namespace1)/image_raw"/> -->
+    <!-- <let name="input/camera_info" value="/sensing/camera/$(var namespace1)/camera_info"/> -->
+    <!-- <let name="output/rois1" value="/perception/traffic_light_recognition/$(var namespace1)/detection/rois"/> -->
+    <!-- <let name="output/traffic_signals1" value="/perception/traffic_light_recognition/$(var namespace1)/classification/traffic_signals"/> -->
+    <!-- <let name="output/car/traffic_signals1" value="/perception/traffic_light_recognition/$(var namespace1)/classification/car/traffic_signals"/> -->
+    <!-- <let name="output/pedestrian/traffic_signals1" value="/perception/traffic_light_recognition/$(var namespace1)/classification/pedestrian/traffic_signals"/> -->
     <let name="map_based_detector_output_topic" value="rough/rois" if="$(var enable_fine_detection)"/>
     <let name="map_based_detector_output_topic" value="$(var output/rois1)" unless="$(var enable_fine_detection)"/>
 

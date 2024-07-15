@@ -28,11 +28,24 @@ AutowareAutomaticGoalPanel::AutowareAutomaticGoalPanel(QWidget * parent)
     qt_timer_, &QTimer::timeout, this, &AutowareAutomaticGoalPanel::updateAutoExecutionTimerTick);
 
   auto * h_layout = new QHBoxLayout(this);
+
+
+  auto * scroll_area = new QScrollArea(this);
+  scroll_area->setWidgetResizable(true);
+
   auto * v_layout = new QVBoxLayout(this);
-  h_layout->addWidget(makeGoalsListGroup());
   v_layout->addWidget(makeEngagementGroup());
   v_layout->addWidget(makeRoutingGroup());
-  h_layout->addLayout(v_layout);
+  v_layout->addWidget(makeParameterGroup());
+
+  auto * container = new QWidget();
+  container->setLayout(v_layout);
+
+  scroll_area->setWidget(container);
+
+  h_layout->addWidget(makeGoalsListGroup());
+  h_layout->addWidget(scroll_area);
+
   setLayout(h_layout);
 }
 
@@ -68,7 +81,6 @@ QGroupBox * AutowareAutomaticGoalPanel::makeGoalsListGroup()
   connect(goals_achieved_btn_ptr_, SIGNAL(toggled(bool)), SLOT(onToggleSaveGoalsAchievement(bool)));
   grid->addWidget(goals_achieved_btn_ptr_, 5, 0);
 
-  group->setLayout(grid);
   return group;
 }
 
@@ -121,6 +133,24 @@ QGroupBox * AutowareAutomaticGoalPanel::makeEngagementGroup()
   connect(stop_btn_ptr_, SIGNAL(clicked()), SLOT(onClickStop()));
   grid->addWidget(stop_btn_ptr_, 4, 0);
   group->setLayout(grid);
+  return group;
+}
+
+QGroupBox * AutowareAutomaticGoalPanel::makeParameterGroup()
+{
+  auto * group = new QGroupBox("Parameter", this);
+  auto * grid = new QGridLayout(group);
+
+  grid->setContentsMargins(0,0,0,0);
+
+  loop_cnt_label_ptr_ = new QLabel("Loop Count", group);
+  loop_cnt_label_ptr_->setMinimumSize(100, 25);
+  loop_cnt_label_ptr_->setAlignment(Qt::AlignCenter);
+  loop_cnt_label_ptr_->setStyleSheet("border:1px solid black;");
+  grid->addWidget(loop_cnt_label_ptr_, 0, 0);
+
+  loop_cnt_input_box_ptr_ = new QSpinBox(group);
+  grid->addWidget(loop_cnt_input_box_ptr_, 0, 1);
 
   group->setLayout(grid);
   return group;
@@ -329,9 +359,17 @@ void AutowareAutomaticGoalPanel::updateAutoExecutionTimerTick()
       onClickStart();
     } else if (state_ == State::ARRIVED) {
       goals_achieved_[current_goal_].second++;
+      RCLCPP_INFO(get_logger(), "Goal list size: %ld", goals_list_.size());
+      RCLCPP_INFO(get_logger(), "Goal Count : %d", goals_achieved_[current_goal_].second);
+      RCLCPP_INFO(get_logger(), "Loop Count : %d", loop_cnt_input_box_ptr_->value());
+      RCLCPP_INFO(get_logger(), "Loop Check : %d", checkLoopCount());
       updateAchievedGoalsFile(current_goal_);
       updateGoalIcon(current_goal_++, QColor("green"));
       onClickClearRoute();  // will be set AUTO_NEXT as next state_
+      if (!checkLoopCount()){
+        state_ = State::STOPPED;
+      }
+
     } else if (state_ == State::STOPPED || state_ == State::ERROR) {
       disableAutomaticMode();
     }
@@ -525,6 +563,24 @@ void AutowareAutomaticGoalPanel::saveGoalsList(const std::string & file_path)
   std::ofstream file_out(file_path);
   file_out << node;
   file_out.close();
+}
+
+bool AutowareAutomaticGoalPanel::checkLoopCount(){
+    bool ret = true;
+
+    unsigned long int loop_count_ = loop_cnt_input_box_ptr_->value();
+    int goals_list_size = goals_list_.size();
+    int i = 0;
+
+    if(!loop_count_) return true;
+
+    for(i=0; i < goals_list_size; i++)
+    {
+       if(loop_count_ == goals_achieved_[i].second) ret = false;
+       else ret = true;
+    }
+
+return ret;
 }
 
 }  // namespace rviz_plugins

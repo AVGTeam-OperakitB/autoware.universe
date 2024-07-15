@@ -4,7 +4,9 @@
     trust_object_distance: 100.0
     trust_object_iou_mode: "iou"
     non_trust_object_iou_mode: "iou_x"
-    use_cluster_semantic_type: false
+    # EDIT_ 0711
+    # use_cluster_semantic_type: false
+    use_cluster_semantic_type: true
     only_allow_inside_cluster: true
     roi_scale_factor: 1.1
     iou_threshold: 0.65

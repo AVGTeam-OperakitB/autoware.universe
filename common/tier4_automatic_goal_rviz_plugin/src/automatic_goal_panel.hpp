@@ -33,6 +33,9 @@
 #include <QString>
 #include <QTimer>
 #include <QVBoxLayout>
+#include <QSpinBox>
+#include <QScrollArea>
+
 #include <rclcpp/rclcpp.hpp>
 #include <rviz_common/display_context.hpp>
 #include <rviz_common/panel.hpp>
@@ -126,15 +129,26 @@ private:
   bool is_automatic_mode_on_{false};
   bool is_loop_list_on_{false};
 
+  // Loop Check
+  bool checkLoopCount();
+
   // QT Containers
   QGroupBox * makeGoalsListGroup();
   QGroupBox * makeRoutingGroup();
   QGroupBox * makeEngagementGroup();
+  QGroupBox * makeParameterGroup();
+
   QTimer * qt_timer_{nullptr};
+
   QListWidget * goals_list_widget_ptr_{nullptr};
+
   QLabel * routing_label_ptr_{nullptr};
   QLabel * operation_mode_label_ptr_{nullptr};
   QLabel * engagement_label_ptr_{nullptr};
+  QLabel * loop_cnt_label_ptr_{nullptr};
+
+  QSpinBox * loop_cnt_input_box_ptr_{nullptr};
+
   QPushButton * loop_list_btn_ptr_{nullptr};
   QPushButton * goals_achieved_btn_ptr_{nullptr};
   QPushButton * load_file_btn_ptr_{nullptr};
@@ -145,6 +159,7 @@ private:
   QPushButton * plan_btn_ptr_{nullptr};
   QPushButton * start_btn_ptr_{nullptr};
   QPushButton * stop_btn_ptr_{nullptr};
+
 };
 }  // namespace rviz_plugins
 
